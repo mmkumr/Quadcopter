@@ -1,4 +1,3 @@
-import BlynkLib
 import os     #importing os library so as to communicate with the system
 import time   #importing time library to make Rpi wait because its too impatient 
 os.system ("sudo pigpiod") #Launching GPIO library
@@ -34,22 +33,26 @@ def calibrate():   #This is the auto calibration procedure of a normal ESC
         print("Arming ESC now...")
         pi.set_servo_pulsewidth(ESC, min_value)
         time.sleep(1)
-        print("See.... uhhhhh")  
+        print("See.... uhhhhh") 
 
-# Initialize Blynk
-blynk = BlynkLib.Blynk('dG2SwZBhNvt8dHp_miQq2UyQO4JxJK-o')
+def manual_drive(): #You will use this function to program your ESC if required
+    inp = raw_input()
+    pi.set_servo_pulsewidth(ESC,inp)
+        
+def stop(): #This will stop every action your Pi is performing for ESC ofcourse.
+    pi.set_servo_pulsewidth(ESC, 0)
+    pi.stop()
 
-# Register Virtual Pins
-@blynk.VIRTUAL_WRITE(3)
-def my_write_handler(value):  
-    v3 = value[0]
-    os.system("pigs s 5 " + v3)
-    print(value[0])
-#@blynk.VIRTUAL_READ(2)
-#   def my_read_handler():
-#       # this widget will show some time in seconds..
-#       blynk.virtual_write(2, int(time.time()))
-
-#calibrate()
+#Main program.
+calibrate()
 while True:
-    blynk.run()  
+    print os.environ.get("v3")
+    #manual_drive()
+#inp = raw_input()
+#if inp == "manual":
+#    manual_drive()
+#elif inp == "stop":
+#    stop()
+#else:
+#    print("Thank You for not following the things I'm saying... now you gotta restart the program STUPID!!")
+
