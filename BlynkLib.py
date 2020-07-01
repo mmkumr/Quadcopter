@@ -203,11 +203,12 @@ class BlynkProtocol:
                     elif args[0] == 'vr':
                         self.emit("readV"+args[1])
                         self.emit("readV*", args[1])
-                elif cmd == MSG_INTERNAL:
-                    self.emit("int_"+args[1], args[2:])
+                #elif cmd == MSG_INTERNAL:
+                #    print len(args) 
+                #    self.emit("int_"+args[1], args[2:])
                 else:
                     print("Unexpected command: ", cmd)
-                    return self.disconnect()
+                    #return self.disconnect()
 
 import socket
 
